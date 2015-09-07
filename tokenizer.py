@@ -82,9 +82,6 @@ def tokenize(text):
 
     for i, char in enumerate(text):
 
-        if not is_japanese(char):
-            continue
-
         is_change = is_char_type_change(last, char)
 
         # make sure it's not the first
