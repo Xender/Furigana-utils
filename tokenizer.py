@@ -54,7 +54,7 @@ def get_char_type(char):
         return 'NONE'
 
 def is_char_type_change(last, current):
-    ''' Returns (is_change, last type, current type) '''
+    ''' Returns (is_change, last_type, current_type) '''
 
     last_type = get_char_type(last)
     current_type = get_char_type(current)
@@ -63,10 +63,10 @@ def is_char_type_change(last, current):
         (last_type == 'BOTH' and current_type in ['HIRAGANA', 'KATAKANA']) or
         (last_type in ['HIRAGANA', 'KATAKANA'] and current_type == 'BOTH')
     ):
-        return False
+        return (False, last_type, current_type)
 
 
-    return last_type != current_type
+    return (last_type != current_type, last_type, current_type)
 
 def is_japanese(char):
     ''' Checks if the given character is Japanese.'''
@@ -82,11 +82,11 @@ def tokenize(text):
 
     for i, char in enumerate(text):
 
-        is_change = is_char_type_change(last, char)
+        is_change, last_type, current_type = is_char_type_change(last, char)
 
         # make sure it's not the first
         if i > 0 and is_change:
-            yield ''.join(chars)
+            yield (''.join(chars), last_type)
             chars = [char]
         else:
             chars.append(char)
@@ -94,5 +94,5 @@ def tokenize(text):
         last = char
 
     # get the last value
-    yield ''.join(chars)
+    yield (''.join(chars), current_type)
 
