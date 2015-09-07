@@ -78,7 +78,6 @@ def tokenize(text):
 
     # break up text
     last = ''
-    words = []
     chars = []
 
     for i, char in enumerate(text):
