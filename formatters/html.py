@@ -19,14 +19,14 @@ rt {
 }
 </style>
 
-<p>\
+<p>
 '''
 
 	footer = ''
 
-	new_paragraph  = '<p>'
+	new_paragraph  = '<p>\n'
 	new_line       = '<br>\n'
-	page_separator = '<div class="page-break">~</div>'
+	page_separator = '<div class="page-break">~</div>\n'
 
 	@staticmethod
 	def ruby_formatter(kanji, kana):

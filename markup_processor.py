@@ -32,14 +32,15 @@ from helpers import stripped_and_empty_lines_collapsed
 
 
 def process(out_format, in_file, out_file):
-	print(out_format.header, file=out_file)
+	out_file.write(out_format.header)
 
 	for line in stripped_and_empty_lines_collapsed(in_file):
 		if line == '':
-			print(out_format.new_paragraph, file=out_file)
+			out_file.write(out_format.new_paragraph)
 		elif line == '~':
-			print(out_format.page_separator, file=out_file)
+			out_file.write(out_format.page_separator)
 		else:
-			print(furiganize(line, out_format.ruby_formatter), end=out_format.new_line, file=out_file)
+			out_file.write( furiganize(line, out_format.ruby_formatter) )
+			out_file.write(out_format.new_line)
 
-	print(out_format.footer, file=out_file)
+	out_file.write(out_format.footer)

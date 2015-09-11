@@ -9,13 +9,14 @@ class TexFormat:
 \\renewcommand{\\rubysep}{-0.2ex}
 
 \\begin{document}
+
 '''
 
-	footer = '\n\\end{document}'
+	footer = '\n\\end{document}\n'
 
-	new_paragraph  = '\\\\'
+	new_paragraph  = '\\\\\n'
 	new_line       = '\\newline\n'
-	page_separator = '{\\raise.17ex\\hbox{$\\scriptstyle\\sim$}}\\pagebreak'
+	page_separator = '{\\raise.17ex\\hbox{$\\scriptstyle\\sim$}}\\pagebreak\n'
 
 	@staticmethod
 	def ruby_formatter(kanjis, kanas):
