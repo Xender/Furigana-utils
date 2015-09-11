@@ -10,11 +10,17 @@ def main():
 		# print(list(tokenizer.tokenize(line)))
 		# continue
 
-		for token in tokenizer.tokenize(line):
-			if token[1] == 'KANJI':
-				print('[', token[0], '|]', sep='', end='')
+		for word, type_ in tokenizer.tokenize(line):
+			if type_ == 'KANJI':
+				kanjis = [kanji for kanji in word]
+
+				kanji_part = '.'.join(kanjis)
+				furi_part  = '.' * len(kanjis)
+
+				print('[', kanji_part, '|', furi_part, ']', sep='', end='')
+
 			else:
-				print(token[0], end='')
+				print(word, end='')
 
 
 if __name__ == '__main__':
