@@ -14,7 +14,7 @@ class TexFormat:
 
 	footer = '\n\\end{document}\n'
 
-	new_paragraph  = '\\\\\n'
+	new_paragraph  = '\n'
 	new_line       = '\\newline\n'
 	page_separator = '{\\raise.17ex\\hbox{$\\scriptstyle\\sim$}}\\pagebreak\n'
 
