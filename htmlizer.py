@@ -11,7 +11,12 @@ html_header = '''\
 <style>
 body {
 	font-family: "Kozuka Mincho Pr6N R";
+	line-height: 1.7em;
 	page-break-inside: avoid;
+}
+
+rt {
+	font-size: 0.7em;
 }
 
 .page-break {
