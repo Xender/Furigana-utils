@@ -6,7 +6,8 @@ from markup_processor import furiganize
 from helpers import stripped_and_empty_lines_collapsed
 
 
-html_header = '''\
+class HtmlFormat:
+	header = '''\
 <!doctype html>
 <meta charset="utf-8">
 
@@ -29,27 +30,38 @@ rt {
 <p>\
 '''
 
+	footer = ''
 
-def html_ruby_formatter(kanji, kana):
-	return ''.join((
-		'<ruby>',
-		'<rb>'.join(kanji),
-		'<rt>',
-		'<rt>'.join(kana),
-		'</ruby>'
-	))
+	new_paragraph  = '<p>'
+	new_line       = '<br>\n'
+	page_separator = '<div class="page-break">~</div>'
+
+	@staticmethod
+	def ruby_formatter(kanji, kana):
+		return ''.join((
+			'<ruby>',
+			'<rb>'.join(kanji),
+			'<rt>',
+			'<rt>'.join(kana),
+			'</ruby>'
+		))
+
+
+out_format = HtmlFormat
 
 
 def main():
-	print(html_header)
+	print(out_format.header)
 
 	for line in stripped_and_empty_lines_collapsed(sys.stdin):
 		if line == '':
-			print('<p>')
+			print(out_format.new_paragraph)
 		elif line == '~':
-			print('<div class="page-break">~</div>')
+			print(out_format.page_separator)
 		else:
-			print(furiganize(line, html_ruby_formatter), end='<br>\n')
+			print(furiganize(line, out_format.ruby_formatter), end=out_format.new_line)
+
+	print(out_format.footer)
 
 
 if __name__ == '__main__':

@@ -6,7 +6,8 @@ from markup_processor import furiganize
 from helpers import stripped_and_empty_lines_collapsed
 
 
-tex_header = '''\
+class TexFormat:
+	header = '''\
 \\documentclass{article}
 \\usepackage{ruby}
 \\usepackage{luatexja-fontspec}
@@ -18,30 +19,37 @@ tex_header = '''\
 \\begin{document}
 '''
 
-tex_footer = '\n\\end{document}'
+	footer = '\n\\end{document}'
+
+	new_paragraph  = '\\\\'
+	new_line       = '\\newline\n'
+	page_separator = '{\\raise.17ex\\hbox{$\\scriptstyle\\sim$}}\\pagebreak'
+
+	@staticmethod
+	def ruby_formatter(kanjis, kanas):
+		ret = ''
+
+		for kanji, kana in zip(kanjis, kanas):
+			ret += '\\ruby{' + kanji + '}{' + kana + '}'
+
+		return ret
 
 
-def tex_ruby_formatter(kanjis, kanas):
-	ret = ''
-
-	for kanji, kana in zip(kanjis, kanas):
-		ret += r'\ruby{' + kanji + '}{' + kana + '}'
-
-	return ret
+out_format = TexFormat
 
 
 def main():
-	print(tex_header)
+	print(out_format.header)
 
 	for line in stripped_and_empty_lines_collapsed(sys.stdin):
 		if line == '':
-			print('\\\\')
+			print(out_format.new_paragraph)
 		elif line == '~':
-			print('{\\raise.17ex\\hbox{$\\scriptstyle\\sim$}}\\pagebreak')
+			print(out_format.page_separator)
 		else:
-			print(furiganize(line, tex_ruby_formatter), end='\\newline\n')
+			print(furiganize(line, out_format.ruby_formatter), end=out_format.new_line)
 
-	print(tex_footer)
+	print(out_format.footer)
 
 
 if __name__ == '__main__':
