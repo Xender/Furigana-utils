@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import re
 import sys
+
+from markup_processor import furiganize
 
 
 tex_header = '''\
@@ -19,25 +20,13 @@ tex_header = '''\
 tex_footer = '\n\\end{document}'
 
 
-furigana_re = re.compile(r'\[(.*?)\|(.*?)\]')  # Match "[kanji|kana]" format.
-
-def furigana_re_replacer(match):
-	kanjis, kanas = map(
-		lambda s: s.split('.'),
-		match.groups()
-	)
-
-	assert len(kanjis) == len(kanas)
-
+def tex_ruby_formatter(kanjis, kanas):
 	ret = ''
 
 	for kanji, kana in zip(kanjis, kanas):
 		ret += r'\ruby{' + kanji + '}{' + kana + '}'
 
 	return ret
-
-def furiganize(s):
-	return furigana_re.sub(furigana_re_replacer, s)
 
 
 def stripped_and_empty_lines_collapsed(it):
@@ -63,7 +52,7 @@ def main():
 		elif line == '~':
 			print('{\\raise.17ex\\hbox{$\\scriptstyle\\sim$}}\\pagebreak')
 		else:
-			print(furiganize(line), end='\\newline\n')
+			print(furiganize(line, tex_ruby_formatter), end='\\newline\n')
 
 	print(tex_footer)
 

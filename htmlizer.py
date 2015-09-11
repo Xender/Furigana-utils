@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import re
 import sys
+
+from markup_processor import furiganize
 
 
 html_header = '''\
@@ -28,14 +29,7 @@ rt {
 '''
 
 
-furigana_re = re.compile(r'\[(.*?)\|(.*?)\]')  # Match "[kanji|kana]" format.
-
-def furigana_re_replacer(match):
-	kanji, kana = map(
-		lambda s: s.split('.'),
-		match.groups()
-	)
-
+def html_ruby_formatter(kanji, kana):
 	return ''.join((
 		'<ruby>',
 		'<rb>'.join(kanji),
@@ -43,9 +37,6 @@ def furigana_re_replacer(match):
 		'<rt>'.join(kana),
 		'</ruby>'
 	))
-
-def furiganize(s):
-	return furigana_re.sub(furigana_re_replacer, s)
 
 
 def stripped_and_empty_lines_collapsed(it):
@@ -71,7 +62,7 @@ def main():
 		elif line == '~':
 			print('<div class="page-break">~</div>')
 		else:
-			print(furiganize(line), end='<br>\n')
+			print(furiganize(line, html_ruby_formatter), end='<br>\n')
 
 
 if __name__ == '__main__':
