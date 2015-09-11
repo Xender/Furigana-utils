@@ -7,6 +7,12 @@ header = '''\
 <!doctype html>
 <meta charset="utf-8">
 
+<style>
+body {
+	font-family: "Kozuka Mincho Pr6N R";
+}
+</style>
+
 '''
 
 def main():
