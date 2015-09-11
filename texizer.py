@@ -4,35 +4,7 @@ import sys
 
 from markup_processor import furiganize
 from helpers import stripped_and_empty_lines_collapsed
-
-
-class TexFormat:
-	header = '''\
-\\documentclass{article}
-\\usepackage{ruby}
-\\usepackage{luatexja-fontspec}
-\\usepackage{etoolbox}
-
-\\renewcommand{\\rubysize}{0.5}
-\\renewcommand{\\rubysep}{-0.2ex}
-
-\\begin{document}
-'''
-
-	footer = '\n\\end{document}'
-
-	new_paragraph  = '\\\\'
-	new_line       = '\\newline\n'
-	page_separator = '{\\raise.17ex\\hbox{$\\scriptstyle\\sim$}}\\pagebreak'
-
-	@staticmethod
-	def ruby_formatter(kanjis, kanas):
-		ret = ''
-
-		for kanji, kana in zip(kanjis, kanas):
-			ret += '\\ruby{' + kanji + '}{' + kana + '}'
-
-		return ret
+from formatters.tex import TexFormat
 
 
 out_format = TexFormat
