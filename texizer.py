@@ -3,6 +3,7 @@
 import sys
 
 from markup_processor import furiganize
+from helpers import stripped_and_empty_lines_collapsed
 
 
 tex_header = '''\
@@ -27,20 +28,6 @@ def tex_ruby_formatter(kanjis, kanas):
 		ret += r'\ruby{' + kanji + '}{' + kana + '}'
 
 	return ret
-
-
-def stripped_and_empty_lines_collapsed(it):
-	last_line_empty = False
-
-	for line in it:
-		line = line.rstrip('\n')
-
-		if line == '' and last_line_empty:
-			continue
-
-		last_line_empty = (line == '')
-
-		yield line
 
 
 def main():
